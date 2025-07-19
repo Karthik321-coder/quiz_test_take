@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizMaster Pro</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head>
+<body>
+  <!-- LOGIN SCREEN -->
+  <div class="login-container active" id="loginContainer">
+    <div class="login-form glassmorphism">
+      <div class="form-header">
+        <i class="fas fa-brain logo-icon"></i>
+        <h1>QuizMaster Pro</h1>
+        <p>Login to begin</p>
+      </div>
+      <form id="loginForm">
+        <div class="input-group">
+          <input type="text" id="username" placeholder="Username" required />
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required />
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        <div class="login-hint">
+          <p><strong>Username:</strong> student</p>
+          <p><strong>Password:</strong> quiz2025</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="quizContainer" class="quiz-container" style="display: none;">
+    <header class="quiz-header glassmorphism">
+      <div class="header-left"><h1><i class="fas fa-brain"></i> QuizMaster Pro</h1></div>
+      <nav class="main-nav">
+        <button class="nav-btn active" onclick="showSection('quiz')"><i class="fas fa-play-circle"></i> Quiz</button>
+        <button class="nav-btn" onclick="showSection('about')"><i class="fas fa-user"></i> About</button>
+      </nav>
+      <div class="header-right">
+        <span class="user-info">Welcome, <span id="loggedUser"></span></span>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </header>
+
+    <!-- QUIZ SECTION -->
+    <div id="quizSection" class="quiz-section">
+      <div class="quiz-stats glassmorphism">
+        <div class="stat-item"><i class="fas fa-question-circle"></i> Q <span id="currentQ">1</span>/<span id="totalQ">0</span></div>
+        <div class="stat-item"><i class="fas fa-chart-line"></i> Score: <span id="currentScore">0</span></div>
+        <div class="stat-item"><i class="fas fa-clock"></i> Time: <span id="timer">30</span>s</div>
+      </div>
+      <div class="progress-container glassmorphism">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <div class="quiz-content">
+        <!-- START SCREEN -->
+        <div id="startScreen" class="start-screen active">
+          <div class="welcome-card glassmorphism">
+            <h2>Select Quiz Topic</h2>
+            <div class="category-grid">
+              <div class="category-card" onclick="selectCategory(this)" data-category="general"><i class="fas fa-lightbulb"></i> General</div>
+              <div class="category-card" onclick="selectCategory(this)" data-category="geography"><i class="fas fa-globe"></i> Geography</div>
+              <div class="category-card" onclick="selectCategory(this)" data-category="sports"><i class="fas fa-futbol"></i> Sports</div>
+              <div class="category-card" onclick="selectCategory(this)" data-category="social-studies"><i class="fas fa-users"></i> Social Studies</div>
+              <div class="category-card" onclick="selectCategory(this)" data-category="science"><i class="fas fa-atom"></i> Science</div>
+              <div class="category-card" onclick="selectCategory(this)" data-category="technology"><i class="fas fa-microchip"></i> Technology</div>
+            </div>
+            <button id="startQuizBtn" class="start-btn" onclick="startQuiz()" disabled><i class="fas fa-play"></i> Start Quiz</button>
+          </div>
+        </div>
+
+        <!-- QUESTION SCREEN -->
+        <div id="questionScreen" class="question-screen" style="display: none;">
+          <div class="question-card glassmorphism">
+            <div class="question-header">
+              <div id="questionCategory" class="question-category">Category</div>
+              <div id="questionDifficulty" class="question-difficulty">Level</div>
+            </div>
+            <h2 id="questionText" class="question-text">Question goes here</h2>
+            <div id="optionsContainer" class="options-container"></div>
+            <div class="question-actions">
+              <button class="skip-btn" onclick="skipQuestion()">Skip</button>
+              <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>Submit</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="resultsScreen" class="results-screen" style="display: none;">
+          <div class="results-card glassmorphism">
+            <h2>Quiz Completed!</h2>
+            <p>Correct: <span id="correctAnswers">0</span></p>
+            <p>Wrong: <span id="wrongAnswers">0</span></p>
+            <p>Score: <span id="finalPercentage">0%</span></p>
+            <p>Total Time: <span id="totalTime">0s</span></p>
+            <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <!-- About Section -->
+<div class="about-section" id="aboutSection">
+    <div class="about-container glassmorphism">
+        <div class="about-header">
+            <div class="developer-avatar">
+                <div class="avatar-circle">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="avatar-status"></div>
+            </div>
+            <div class="developer-info">
+                <h1 class="developer-name">Karthik</h1>
+                <p class="developer-title">Web Developer</p>
+                <div class="developer-badges">
+                    <span class="badge">Full Stack</span>
+                    <span class="badge">React Expert</span>
+                    <span class="badge">BTech MSRIT</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <div class="about-grid">
+                <div class="about-card glassmorphism">
+                    <div class="card-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <p>Currently pursuing BTech at MSRIT Bangalore, specializing in modern web technologies and software engineering principles.</p>
+                </div>
+
+                <div class="about-card glassmorphism">
+                    <div class="card-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Expertise</h3>
+                    <p>Passionate web developer with expertise in HTML5, CSS3, JavaScript, React, and modern UI/UX design patterns.</p>
+                </div>
+
+                <div class="about-card glassmorphism">
+                    <div class="card-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Projects</h3>
+                    <p>Created innovative web applications including this interactive quiz platform with advanced animations and user experience.</p>
+                </div>
+
+                <div class="about-card glassmorphism">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Passion</h3>
+                    <p>Dedicated to creating beautiful, functional websites that solve real-world problems and enhance user experiences.</p>
+                </div>
+            </div>
+
+            <div class="skills-section">
+                <h3>Technical Skills</h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS3</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js-square"></i>
+                        <span>JavaScript</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-react"></i>
+                        <span>React</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3>Let's Connect</h3>
+                <div class="contact-links">
+                    <a href="#" class="contact-link">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <i class="fas fa-globe"></i>
+                        <span>Portfolio</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
